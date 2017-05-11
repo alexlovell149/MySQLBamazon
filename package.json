@@ -1,0 +1,24 @@
+{
+  "name": "mysqlbamazon",
+  "version": "1.0.0",
+  "description": "app that lets customers view/purchase inventory and managers manage it",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexlovell149/MySQLBamazon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexlovell149/MySQLBamazon/issues"
+  },
+  "homepage": "https://github.com/alexlovell149/MySQLBamazon#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "inquirer": "^3.0.6",
+    "mysql": "^2.13.0"
+  }
+}
