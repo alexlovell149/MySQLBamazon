@@ -20,13 +20,14 @@ connection.connect(function(err, results) {
     if (err) throw err;
 
 });
-
+// begining function that allows user to pick from a list of choices and set of prompts
+// attached to each choice
 var choice = function() {
     inquirer.prompt([{
         name: "action",
         type: "list",
         message: "What do you want to do?",
-        choices: ["View Inventory", "Add to Inventory", "Add a new Product", "Exit"]
+        choices: ["View Inventory", "Add to Inventory Stock", "Add a new Product", "Exit"]
 
     }]).then(function(answer) {
         switch (answer.action) {
@@ -36,7 +37,7 @@ var choice = function() {
                 });
                 break;
 
-            case "Add to Inventory":
+            case "Add to Inventory Stock":
                 addToInv();
                 break;
 
@@ -52,7 +53,7 @@ var choice = function() {
         }
     });
 }
-
+// function for simply viewing the table
 var viewInv = function(cb) {
 
     connection.query("SELECT * FROM products", function(err, results) {
@@ -77,22 +78,22 @@ var viewInv = function(cb) {
 
     });
 }
-
+// adding an item and how to select a speicific item witht the first prompt
 var addToInv = function() {
     var items = [];
     connection.query("SELECT product_name FROM products", function(err, res) {
         if (err) throw err;
-
+        // loop through the results in the products table
         for (var i = 0; i < res.length; i++) {
             items.push(res[i].product_name)
         }
-
+        // ask user with checkoboxes with product name they want to add inventory to
         inquirer.prompt([{
             name: "additions",
             type: "checkbox",
             message: "Which product would you like to add inventory for",
             choices: items
-
+            // if customer does not enter anythiing the get a message if not they are moved to next set of prompts
         }]).then(function(user) {
             if (user.additions.length === 0) {
                 console.log("You didn't make a purchase!");
@@ -159,14 +160,14 @@ var addToInv2 = function(itemNames) {
 
 function addToProd() {
     var departments = [];
-    //I ADDED A DEPARTMENT TABLE WITH DIFFERENT DEPARTMENTS WHICH WILL SHOW UP HERE. 
+    //select
     connection.query('SELECT department_name FROM products', function(err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
             departments.push(res[i].department_name);
         }
     });
-    //THESE ARE ALL THE PROMPTS FOR THE USER TO BE PROMPTED.
+    //These are the prompts for adding products to the table
     inquirer.prompt([{
         name: "item",
         type: "text",
@@ -185,19 +186,19 @@ function addToProd() {
         type: "text",
         message: "Enter the Stock Quantity for this item to be entered into current stock"
     }]).then(function(user) {
-        //CREATES AN OBJECT WITH ALL OF THE ITEMS ADDED
+        // create item object with all of the user's choices
         var item = {
                 product_name: user.item,
                 department_name: user.department,
                 price: user.price,
                 stock_quantity: user.stock
             }
-            //INSERTS THE NEW ITEM INTO THE DATABASE
+            //puts it into the products table
         connection.query('INSERT INTO products SET ?', item,
             function(err) {
                 if (err) throw err;
                 console.log(item.product_name + ' has been added successfully to your inventory.');
-                //THE MANAGER PROMPT FUNCTION IS RUN AGAIN.
+                //The prompts then start over from the beginning
                 choice();
             });
     });

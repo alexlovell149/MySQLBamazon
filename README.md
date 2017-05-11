@@ -1,6 +1,8 @@
 # MySQLBamazon
 Application using Node.js and MySQL to take store inventory and deplete stock
 
+[![Youtube](http://img.youtube.com/vi/lAc8BLYlIaI/0.jpg)](https://youtu.be/lAc8BLYlIaI)
+
 ##Directions
 Using **MySQL** and **node.js** and **cli-table** I was able to integrate an application that when running terminal allows me to see my inventory in a nice table and add to it, purchase items, add new products, and update pricing.
 
